@@ -1,5 +1,6 @@
 package lucasheber.com.jogodavelha
 
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
 import androidx.appcompat.app.AppCompatActivity
@@ -10,6 +11,8 @@ import android.view.View
 import android.widget.Button
 import androidx.core.content.res.ResourcesCompat
 import java.util.ArrayList
+
+data class Velha(var message: String = "Deu Velha!")
 
 class MainActivity : AppCompatActivity() {
 
@@ -63,11 +66,11 @@ class MainActivity : AppCompatActivity() {
     private fun checkWinner() {
 
        if (isWinner(listPlayerOne)) {
-           Log.d("##","O Player One (X) Winner!")
+           gameOver(Velha("Player One (X) Winner!"))
        } else if (isWinner(listPlayerTwo)) {
-           Log.d("##","O Player Two (O) Winner!")
+           gameOver(Velha("Player Two (O) Winner!"))
        } else if (listPlayerOne.size + listPlayerTwo.size == 9) {
-           Log.d("##","IoI.... deu velha!")
+           gameOver(Velha())
        }
     }
 
@@ -78,5 +81,12 @@ class MainActivity : AppCompatActivity() {
         }
 
         return false
+    }
+
+    private fun gameOver(velha: Velha) {
+        val intent = Intent(this, Winner::class.java)
+        intent.putExtra("velha", velha.message)
+
+        startActivity(intent)
     }
 }
